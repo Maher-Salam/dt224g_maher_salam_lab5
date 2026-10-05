@@ -33,11 +33,20 @@ let history = [];
  * @returns {boolean}
  */
 function validateForm() {
-    // Kontrollera formulärets obligatoriska fält
 
+    errors = [];
+
+    // Kontrollera formulärets obligatoriska fält
+    if(fullnameInput.value.trim() === "") {
+        errors.push("Fullständigt namn är obligatoriskt.");
+    }
+    if(emailInput.value.trim() === "" && emailInput.value.trim() !== "@") {
+        errors.push("e-post är obligatoriskt.");
+    }
     // Visa eventuella felmeddelanden
 
     // Returnera resultatet (true eller false) av valideringen
+    return errors.length === 0;
 }
 
 
@@ -114,7 +123,11 @@ function deleteHistory() {
 
 
 // Eventlyssnare
-
+form.addEventListener("submit", function (event) {
+   event.preventDefault();
+    
+   
+});
 // När formuläret skickas:
 // - validera inmatningen
 // - skapa studentkort om valideringen lyckas
