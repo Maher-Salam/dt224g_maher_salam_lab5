@@ -131,7 +131,10 @@ form.addEventListener("submit", function (event) {
    event.preventDefault();
     
    validateForm();
-   
+   console.log(fullnameInput.value);
+   console.log(emailInput.value);
+   console.log(phoneInput.value);
+   console.log(fontSelect.value);
 });
 // När formuläret skickas:
 // - validera inmatningen
