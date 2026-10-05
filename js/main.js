@@ -43,6 +43,9 @@ function validateForm() {
     if(emailInput.value.trim() === "" && emailInput.value.trim() !== "@") {
         errors.push("e-post är obligatoriskt.");
     }
+    if(phoneInput.value.trim() === "") {
+        errors.push("Telefonnummer är obligatoriskt.");
+    }
     // Visa eventuella felmeddelanden
 
     // Returnera resultatet (true eller false) av valideringen
@@ -57,6 +60,7 @@ function displayErrors() {
     // Rensa tidigare felmeddelanden
 
     // Skriv ut aktuella felmeddelanden till DOM
+
 }
 
 
@@ -126,6 +130,7 @@ function deleteHistory() {
 form.addEventListener("submit", function (event) {
    event.preventDefault();
     
+   validateForm();
    
 });
 // När formuläret skickas:
