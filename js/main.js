@@ -58,8 +58,14 @@ function validateForm() {
  */
 function displayErrors() {
     // Rensa tidigare felmeddelanden
-
+    errorList.innerHTML = "";
     // Skriv ut aktuella felmeddelanden till DOM
+    errors.forEach(error => {
+        const liEl = document.createElement("li");
+        const textNode = document.createTextNode(error);
+        liEl.appendChild(textNode);
+        errorList.appendChild(liEl);
+    });
 
 }
 
@@ -69,9 +75,20 @@ function displayErrors() {
  */
 function createStudentCard() {
     // Hämta information från formuläret
-
+    const fullname = document.getElementById("fullname").value;
+    const email = document.getElementById("email").value;
+    const phone = document.getElementById("phone").value;
     // Uppdatera studentkortet
-
+    previewFullname.textContent = "Namn";
+    previewEmail.textContent = "E-post";
+    previewPhone.textContent = "Telefon";
+    if (validateForm() === true) {
+    previewFullname.textContent += ": " + fullname;
+    previewEmail.textContent += ": " + email;
+    previewPhone.textContent += ": " + phone;
+    }
+    const card = document.querySelector(".card");
+    card.style.fontFamily = document.querySelector("#font").value;
     // Lägg till studentkortet i historiken
 
     // Spara och uppdatera historiken
@@ -131,10 +148,9 @@ form.addEventListener("submit", function (event) {
    event.preventDefault();
     
    validateForm();
-   console.log(fullnameInput.value);
-   console.log(emailInput.value);
-   console.log(phoneInput.value);
-   console.log(fontSelect.value);
+   displayErrors();
+   createStudentCard();
+  
 });
 // När formuläret skickas:
 // - validera inmatningen
