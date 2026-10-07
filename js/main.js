@@ -35,8 +35,9 @@ let history = [];
 function validateForm() {
 
     errors = [];
-
+    
     // Kontrollera formulärets obligatoriska fält
+    // Visa eventuella felmeddelanden
     if(fullnameInput.value.trim() === "") {
         errors.push("Fullständigt namn är obligatoriskt.");
     }
@@ -46,7 +47,7 @@ function validateForm() {
     if(phoneInput.value.trim() === "") {
         errors.push("Telefonnummer är obligatoriskt.");
     }
-    // Visa eventuella felmeddelanden
+   
 
     // Returnera resultatet (true eller false) av valideringen
     return errors.length === 0;
@@ -89,9 +90,17 @@ function createStudentCard() {
     }
     const card = document.querySelector(".card");
     card.style.fontFamily = document.querySelector("#font").value;
+    const font = document.querySelector("#font").value;
     // Lägg till studentkortet i historiken
+    const studentCard = {
+        fullname: fullname,
+        email: email,
+        phone: phone,
+        font: font,
+    };
 
     // Spara och uppdatera historiken
+    
 }
 
 
