@@ -141,8 +141,31 @@ function loadHistory() {
  */
 function renderHistory() {
     // Rensa tidigare visad historik
+    historySection.innerHTML = "";
 
     // Skriv ut innehållet i history till DOM
+    history.forEach(studnetCard => {
+        const articleEl = document.createElement("article");
+        const nameEl = document.createElement("p");
+        const emailEl = document.createElement("p");
+        const phoneEl = document.createElement("p");
+        const fontEl = document.createElement("p");
+
+        nameEl.textContent = "Namn: " + studnetCard.fullname;
+        emailEl.textContent = "E-post: " + studnetCard.email;
+        phoneEl.textContent = "Telefon: " + studnetCard.phone;
+        fontEl.textContent = "Typsnitt: " + studnetCard.font;
+
+        articleEl.appendChild(nameEl);
+        articleEl.appendChild(emailEl);
+        articleEl.appendChild(phoneEl);
+        articleEl.appendChild(fontEl);
+        historySection.appendChild(articleEl);
+        articleEl.style.border = "1px solid black";
+        articleEl.style.borderRadius = "5px";
+        articleEl.style.padding = "5px";
+        articleEl.style.marginBottom = "10px";
+    })
 }
 
 
@@ -151,8 +174,12 @@ function renderHistory() {
  */
 function clearForm() {
     // Återställ formulär och studentkort
-
+    form.reset();
+    previewFullname.textContent = "Namn";
+    previewEmail.textContent = "E-post";
+    previewPhone.textContent = "Telefon";
     // Rensa eventuella felmeddelanden
+    errorList.innerHTML = "";
 }
 
 
@@ -161,8 +188,10 @@ function clearForm() {
  */
 function deleteHistory() {
     // Radera sparad historik
-
+    localStorage.removeItem("history");
     // Uppdatera history och visningen på sidan
+    history = [];
+    renderHistory();
 }
 
 
@@ -176,17 +205,25 @@ form.addEventListener("submit", function (event) {
    displayErrors();
    createStudentCard();
     saveHistory();
+    renderHistory();
     
 });
 
 
 
 // När användaren klickar på "Rensa"
-
+clearButton.addEventListener("click", function (event) {
+    event.preventDefault();
+    clearForm();
+});
 
 // När användaren klickar på "Radera historik"
-
+ deleteHistoryButton.addEventListener("click", function (event) {
+    event.preventDefault();
+    deleteHistory();
+})
 
 // När sidan laddas:
 // - läs in och visa eventuell tidigare historik
 loadHistory();
+renderHistory();
