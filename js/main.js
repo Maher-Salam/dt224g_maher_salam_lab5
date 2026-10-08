@@ -35,15 +35,19 @@ let history = [];
 function validateForm() {
 
     errors = [];
-
+    
     // Kontrollera formulärets obligatoriska fält
+    // Visa eventuella felmeddelanden
     if(fullnameInput.value.trim() === "") {
         errors.push("Fullständigt namn är obligatoriskt.");
     }
     if(emailInput.value.trim() === "" && emailInput.value.trim() !== "@") {
         errors.push("e-post är obligatoriskt.");
     }
-    // Visa eventuella felmeddelanden
+    if(phoneInput.value.trim() === "") {
+        errors.push("Telefonnummer är obligatoriskt.");
+    }
+   
 
     // Returnera resultatet (true eller false) av valideringen
     return errors.length === 0;
@@ -55,8 +59,15 @@ function validateForm() {
  */
 function displayErrors() {
     // Rensa tidigare felmeddelanden
-
+    errorList.innerHTML = "";
     // Skriv ut aktuella felmeddelanden till DOM
+    errors.forEach(error => {
+        const liEl = document.createElement("li");
+        const textNode = document.createTextNode(error);
+        liEl.appendChild(textNode);
+        errorList.appendChild(liEl);
+    });
+
 }
 
 
@@ -65,12 +76,37 @@ function displayErrors() {
  */
 function createStudentCard() {
     // Hämta information från formuläret
+    const fullname = document.getElementById("fullname").value;
+    const email = document.getElementById("email").value;
+    const phone = document.getElementById("phone").value;
 
     // Uppdatera studentkortet
+    previewFullname.textContent = "Namn";
+    previewEmail.textContent = "E-post";
+    previewPhone.textContent = "Telefon";
+
+    if (validateForm() === true) {
+        previewFullname.textContent += ": " + fullname;
+        previewEmail.textContent += ": " + email;
+        previewPhone.textContent += ": " + phone;
+    }
+
+    const card = document.querySelector(".card");
+    card.style.fontFamily = document.querySelector("#font").value;
+    const font = document.querySelector("#font").value;
 
     // Lägg till studentkortet i historiken
+    const studentCard = {
+        fullname: fullname,
+        email: email,
+        phone: phone,
+        font: font
+    };
 
     // Spara och uppdatera historiken
+    if (validateForm() === true) {
+    history.unshift(studentCard);
+    }
 }
 
 
@@ -79,6 +115,10 @@ function createStudentCard() {
  */
 function saveHistory() {
     // Spara history i localStorage
+    if (validateForm() === true) {
+        localStorage.setItem("history", JSON.stringify(history));
+    }
+    
 }
 
 
@@ -87,8 +127,12 @@ function saveHistory() {
  */
 function loadHistory() {
     // Hämta eventuell sparad historik
+    const savedHistory = localStorage.getItem("history");
 
     // Uppdatera history
+    if (savedHistory) {
+        history = JSON.parse(savedHistory);
+    }
 }
 
 
@@ -125,12 +169,16 @@ function deleteHistory() {
 // Eventlyssnare
 form.addEventListener("submit", function (event) {
    event.preventDefault();
-    
-   
-});
-// När formuläret skickas:
+ // När formuläret skickas:
 // - validera inmatningen
 // - skapa studentkort om valideringen lyckas
+   validateForm();
+   displayErrors();
+   createStudentCard();
+    saveHistory();
+    
+});
+
 
 
 // När användaren klickar på "Rensa"
@@ -141,3 +189,4 @@ form.addEventListener("submit", function (event) {
 
 // När sidan laddas:
 // - läs in och visa eventuell tidigare historik
+loadHistory();
