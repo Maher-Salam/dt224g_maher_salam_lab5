@@ -79,28 +79,34 @@ function createStudentCard() {
     const fullname = document.getElementById("fullname").value;
     const email = document.getElementById("email").value;
     const phone = document.getElementById("phone").value;
+
     // Uppdatera studentkortet
     previewFullname.textContent = "Namn";
     previewEmail.textContent = "E-post";
     previewPhone.textContent = "Telefon";
+
     if (validateForm() === true) {
-    previewFullname.textContent += ": " + fullname;
-    previewEmail.textContent += ": " + email;
-    previewPhone.textContent += ": " + phone;
+        previewFullname.textContent += ": " + fullname;
+        previewEmail.textContent += ": " + email;
+        previewPhone.textContent += ": " + phone;
     }
+
     const card = document.querySelector(".card");
     card.style.fontFamily = document.querySelector("#font").value;
     const font = document.querySelector("#font").value;
+
     // Lägg till studentkortet i historiken
     const studentCard = {
         fullname: fullname,
         email: email,
         phone: phone,
-        font: font,
+        font: font
     };
 
     // Spara och uppdatera historiken
+    if (validateForm() === true) {
     history.unshift(studentCard);
+    }
 }
 
 
@@ -109,6 +115,10 @@ function createStudentCard() {
  */
 function saveHistory() {
     // Spara history i localStorage
+    if (validateForm() === true) {
+        localStorage.setItem("history", JSON.stringify(history));
+    }
+    
 }
 
 
@@ -159,7 +169,7 @@ form.addEventListener("submit", function (event) {
    validateForm();
    displayErrors();
    createStudentCard();
-  
+    saveHistory();
 });
 // När formuläret skickas:
 // - validera inmatningen
