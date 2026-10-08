@@ -127,8 +127,12 @@ function saveHistory() {
  */
 function loadHistory() {
     // Hämta eventuell sparad historik
+    const savedHistory = localStorage.getItem("history");
 
     // Uppdatera history
+    if (savedHistory) {
+        history = JSON.parse(savedHistory);
+    }
 }
 
 
@@ -165,15 +169,16 @@ function deleteHistory() {
 // Eventlyssnare
 form.addEventListener("submit", function (event) {
    event.preventDefault();
-    
+ // När formuläret skickas:
+// - validera inmatningen
+// - skapa studentkort om valideringen lyckas
    validateForm();
    displayErrors();
    createStudentCard();
     saveHistory();
+    
 });
-// När formuläret skickas:
-// - validera inmatningen
-// - skapa studentkort om valideringen lyckas
+
 
 
 // När användaren klickar på "Rensa"
@@ -184,3 +189,4 @@ form.addEventListener("submit", function (event) {
 
 // När sidan laddas:
 // - läs in och visa eventuell tidigare historik
+loadHistory();
