@@ -141,8 +141,31 @@ function loadHistory() {
  */
 function renderHistory() {
     // Rensa tidigare visad historik
+    historySection.innerHTML = "";
 
     // Skriv ut innehållet i history till DOM
+    history.forEach(studnetCard => {
+        const articleEl = document.createElement("article");
+        const nameEl = document.createElement("p");
+        const emailEl = document.createElement("p");
+        const phoneEl = document.createElement("p");
+        const fontEl = document.createElement("p");
+
+        nameEl.textContent = "Namn: " + studnetCard.fullname;
+        emailEl.textContent = "E-post: " + studnetCard.email;
+        phoneEl.textContent = "Telefon: " + studnetCard.phone;
+        fontEl.textContent = "Typsnitt: " + studnetCard.font;
+
+        articleEl.appendChild(nameEl);
+        articleEl.appendChild(emailEl);
+        articleEl.appendChild(phoneEl);
+        articleEl.appendChild(fontEl);
+        historySection.appendChild(articleEl);
+        articleEl.style.border = "1px solid black";
+        articleEl.style.borderRadius = "5px";
+        articleEl.style.padding = "5px";
+        articleEl.style.marginBottom = "10px";
+    })
 }
 
 
@@ -176,6 +199,7 @@ form.addEventListener("submit", function (event) {
    displayErrors();
    createStudentCard();
     saveHistory();
+    renderHistory()
     
 });
 
