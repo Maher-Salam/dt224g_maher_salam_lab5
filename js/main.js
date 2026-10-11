@@ -201,12 +201,14 @@ form.addEventListener("submit", function (event) {
  // När formuläret skickas:
 // - validera inmatningen
 // - skapa studentkort om valideringen lyckas
-   validateForm();
-   displayErrors();
+   if(validateForm() === true) {
+   
    createStudentCard();
     saveHistory();
     renderHistory();
-    
+    } else {
+        displayErrors();
+    }   
 });
 
 
